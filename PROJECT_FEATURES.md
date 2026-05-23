@@ -1,91 +1,115 @@
 # Project Features Overview
 
-This project is a Vite React admin dashboard UI. It is mostly presentational and uses hardcoded sample data from `src/DummyData.jsx`; there is no backend/API integration, persistence layer, authentication, or real form submission flow currently implemented.
+This project is a modernized Vite React admin dashboard UI. It is frontend-only and uses hardcoded fake data from `src/DummyData.jsx`; there is no backend/API integration, persistence layer, authentication, or real form submission flow.
 
 ## Tech Stack
 
-- React 19 with Vite.
-- React Router for page routing.
-- Material UI icons and MUI DataGrid for tables.
-- Recharts for line charts.
-- Plain CSS files colocated with each page/component.
+- React 19 with Vite 6.
+- React Router DOM 7 with `createBrowserRouter` and `RouterProvider`.
+- Tailwind CSS 4 for the primary blue-white UI system.
+- Recharts for line, area, and bar charts.
+- MUI Icons for sidebar and action icons.
+- Shared Tailwind UI helpers in `src/components/DashboardKit.jsx`.
 
 ## Application Layout
 
-- `src/index.jsx` mounts the app into the root DOM element.
-- `src/App.jsx` defines the main shell with a top bar, sidebar, and routed page content.
-- The top bar shows the dashboard brand/logo area and utility icons.
-- The sidebar provides grouped navigation sections for Dashboard, Quick Menu, Notifications, and Staff.
-- Only Home, Users, and Products routes are wired as navigable app pages; other sidebar items are visual/static menu entries.
+- `src/index.jsx` defines the route object tree and renders `RouterProvider`.
+- `src/App.jsx` is the shared shell with sticky top bar, responsive sidebar, and routed page content via `Outlet`.
+- `src/components/SideBar/Sidebar.jsx` uses `NavLink` so active sidebar tabs update from the current route.
+- `src/components/TopBar/Topbar.jsx` provides the dashboard brand area and utility icons.
+- Most modern UI is styled with Tailwind classes rather than the older colocated CSS files.
 
 ## Routes
 
 - `/` renders the Home dashboard.
+- `/analytics` renders analytics KPIs and charts.
+- `/sales` renders regional sales overview content.
 - `/users` renders the user list table.
 - `/users/:userId` renders the user detail/edit screen.
 - `/users/newUser` renders the new user form.
 - `/products` renders the product list table.
 - `/products/:productId` renders the product detail/edit screen.
-- `/products/newProduct` renders a placeholder new product page.
+- `/products/newProduct` renders the new product form.
+- `/transactions` renders transaction metrics and table data.
+- `/reports` renders the Business Reports page.
+- `/mail` renders an inbox-style Mail page.
+- `/feedback` renders customer feedback data.
+- `/messages` renders internal messages.
+- `/staff/manage` renders staff management data.
+- `/staff/reports` renders staff reporting metrics.
 
-## Dashboard Features
+## Dashboard And Navigation Features
 
-- Revenue, Sales, and Cost summary cards with month-over-month indicators.
-- User analytics line chart using Recharts and `userData`.
-- New members widget showing sample users with avatar, title, and display button.
-- Latest transactions table with customer, date, amount, and status badges.
+- Blue-white responsive app shell with sticky top navigation.
+- Sidebar sections include Dashboard, Quick Menu, Notifications, and Staff.
+- Duplicate sidebar labels were clarified as Business Reports and Staff Reports.
+- Active sidebar links use a blue background with white text/icons.
+- Home dashboard includes revenue, orders, cost, active-user chart, and recent transaction table.
+- Shared `PageHeader`, `StatCard`, `Card`, `DataTable`, `StatusBadge`, `ChartPanel`, and form helpers keep pages visually consistent.
 
 ## User Management Features
 
-- User list page displays sample users in a MUI DataGrid.
-- Columns include ID, user/avatar, email, status, transaction, and action controls.
-- Each row has an Edit link to the user detail route.
-- Each row has a delete icon that removes the user from local component state for the current session.
-- User detail page shows a static user profile summary with account and contact details.
-- User detail page includes an edit form with fields for username, full name, email, phone, address, avatar upload control, and update button.
-- New user page includes a form for username, full name, email, password, phone, address, gender, active status, and create button.
+- User list page displays fake users in a Tailwind-styled table.
+- Columns include ID, avatar/name/role, email, status, transaction amount, and actions.
+- Each user row links to `/users/:userId`.
+- Delete action removes the user from local component state for the current session only.
+- User detail page reads the route parameter and displays the matching fake user when available.
+- User detail/edit form is UI-only and shows a demo-mode notice.
+- New user form includes username, full name, email, password, phone, address, gender, and active status.
 
 ## Product Management Features
 
-- Product list page displays sample products in a MUI DataGrid.
-- Columns include ID, product/image, stock, status, price, and action controls.
-- Each row has an Edit link to the product detail route.
-- Each row has a delete icon that removes the product from local component state for the current session.
-- Product detail page shows a sales performance chart using `productData`.
-- Product detail page shows static product metadata including image, ID, sales, active status, and stock status.
-- Product detail page includes an edit form for product name, stock status, active status, image upload control, and update button.
-- New product page currently exists only as a placeholder showing "New Product".
+- Product list page displays fake products in a Tailwind-styled table.
+- Columns include ID, image/name/category, stock, status, price, and actions.
+- Each product row links to `/products/:productId`.
+- Delete action removes the product from local component state for the current session only.
+- Product detail page reads the route parameter and displays matching fake product details when available.
+- Product detail page includes a Recharts sales performance panel and an edit form.
+- New product page is now a full demo form, not a placeholder.
 
-## Data Model and Sample Data
+## Additional Sidebar Page Features
 
-- `userData` powers the dashboard user analytics chart.
-- `productData` powers the product sales performance chart.
-- `userRows` powers the users DataGrid.
-- `productRows` powers the products DataGrid.
-- Data edits/deletions are local to component state and are not persisted after refresh.
+- Analytics page shows visitor and conversion metrics with area and bar charts.
+- Sales page shows revenue KPIs, regional revenue chart, and sales priorities.
+- Transactions page shows recent fake transactions with status badges.
+- Business Reports page lists fake report records by owner, update time, and status.
+- Mail page shows inbox-style fake mail items.
+- Feedback page shows customer scores, comments, and follow-up states.
+- Messages page shows internal message queue data.
+- Manage Staff page shows staff roster, workload, and availability.
+- Staff Reports page shows headcount, utilization, high-load metrics, and team notes.
+
+## Data Model And Sample Data
+
+- `userData` powers dashboard active-user charts.
+- `productData` powers product sales charts.
+- `analyticsData` and `salesData` power the new analytics and sales charts.
+- `userRows` powers the users table and user detail pages.
+- `productRows` powers the products table and product detail pages.
+- `transactions`, `reports`, `mailItems`, `feedbackItems`, `messages`, and `staff` power the new sidebar pages.
+- Data edits and deletes are local to component state and reset on refresh.
 
 ## Useful File Map
 
-- `src/App.jsx`: application shell and route definitions.
-- `src/DummyData.jsx`: static chart/table data.
+- `src/index.jsx`: route definitions and app render.
+- `src/App.jsx`: shared application shell.
+- `src/DummyData.jsx`: static fake data for all pages.
+- `src/components/DashboardKit.jsx`: shared Tailwind UI primitives.
 - `src/components/TopBar/Topbar.jsx`: top navigation bar.
-- `src/components/SideBar/Sidebar.jsx`: sidebar navigation.
-- `src/components/FeaturedInfo/FeaturedInfo.jsx`: dashboard metric cards.
-- `src/components/Chart/Chart.jsx`: reusable Recharts line chart.
-- `src/components/WidgetSmall/WidgetSmall.jsx`: new members widget.
-- `src/components/WidgetLarge/WidgetLarge.jsx`: latest transactions table.
+- `src/components/SideBar/Sidebar.jsx`: route-aware sidebar navigation.
+- `src/pages/ModernPages.jsx`: Analytics, Sales, Transactions, Reports, Mail, Feedback, Messages, and Staff pages.
 - `src/pages/Home/Home.jsx`: dashboard page.
 - `src/pages/UserList/UserList.jsx`: users table page.
 - `src/pages/User/User.jsx`: user profile/edit page.
 - `src/pages/NewUser/NewUser.jsx`: user creation form.
 - `src/pages/ProductList/ProductList.jsx`: products table page.
 - `src/pages/Product/Product.jsx`: product detail/edit page.
-- `src/pages/NewProduct/NewProduct.jsx`: new product placeholder page.
+- `src/pages/NewProduct/NewProduct.jsx`: product creation form.
 
 ## Current Limitations
 
-- Forms are UI-only and do not submit or validate data.
-- Edit pages display static records rather than loading by route parameter.
+- Forms are UI-only and do not submit, validate, or persist data.
 - Delete actions only update local in-memory state.
-- Several sidebar navigation items are labels only and do not route anywhere.
-- The README still contains default Create React App text even though the project uses Vite scripts.
+- There is no backend API, database, authentication, or authorization.
+- Refreshing the app resets all fake data.
+- There is no configured test or lint script.
