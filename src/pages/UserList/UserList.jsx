@@ -1,93 +1,75 @@
 import React from "react";
-import "./UserList.css";
-import { DataGrid } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { DataTable, PageHeader, PrimaryButton, StatusBadge } from "../../components/DashboardKit";
 import { userRows } from "../../DummyData";
-import { Link } from "react-router";
 
 export default function UserList() {
   const [data, setData] = React.useState(userRows);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    setData((currentData) => currentData.filter((item) => item.id !== id));
   };
 
-  const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    {
-      field: "user",
-      headerName: "User",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="userListUser">
-            <img
-              src={params.row.avatar}
-              alt={params.row.username}
-              className="userListAvatar"
-            />
-            {params.row.username}
-          </div>
-        );
-      },
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 110,
-      editable: true,
-    },
-    {
-      field: "transaction",
-      headerName: "Transaction",
-      type: "number",
-      width: 110,
-      editable: true,
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 110,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/users/${params.row.id}`}>
-              <button className="userListEdit">Edit</button>
-            </Link>
-            <DeleteOutlineIcon
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
-          </>
-        );
-      },
-    },
-  ];
-
   return (
-    <div className="userList">
-      <div className="userListHeader">
-        <h1 className="userListTitle">Users</h1>
-        <Link to="/users/newUser">
-          <button className="userListAddButton">Add New User</button>
-        </Link>
-      </div>
-      <div className="userListTable">
-        <DataGrid
-          rows={data}
-          columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[8]}
-          checkboxSelection
-          disableSelectionOnClick
-        />
-      </div>
-    </div>
+    <>
+      <PageHeader
+        title="Users"
+        description="Manage fake dashboard users. Deletes only update this page until refresh."
+        action={
+          <Link to="/users/newUser">
+            <PrimaryButton>Add New User</PrimaryButton>
+          </Link>
+        }
+      />
+      <DataTable
+        rows={data}
+        columns={[
+          { key: "id", header: "ID" },
+          {
+            key: "user",
+            header: "User",
+            render: (row) => (
+              <div className="flex items-center gap-3">
+                <img className="h-10 w-10 rounded-full object-cover" src={row.avatar} alt={row.username} />
+                <div>
+                  <div className="font-semibold text-slate-950">{row.username}</div>
+                  <div className="text-xs text-slate-500">{row.role}</div>
+                </div>
+              </div>
+            ),
+          },
+          { key: "email", header: "Email" },
+          {
+            key: "status",
+            header: "Status",
+            render: (row) => <StatusBadge tone={row.status === "active" ? "green" : "amber"}>{row.status}</StatusBadge>,
+          },
+          { key: "transaction", header: "Transactions" },
+          {
+            key: "action",
+            header: "Action",
+            render: (row) => (
+              <div className="flex items-center gap-3">
+                <Link
+                  to={`/users/${row.id}`}
+                  className="rounded-md bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 transition hover:bg-blue-100"
+                >
+                  Edit
+                </Link>
+                <button
+                  type="button"
+                  className="text-red-500 transition hover:text-red-700"
+                  onClick={() => handleDelete(row.id)}
+                  aria-label={`Delete ${row.username}`}
+                >
+                  <DeleteOutlineIcon fontSize="small" />
+                </button>
+              </div>
+            ),
+          },
+        ]}
+      />
+    </>
   );
 }

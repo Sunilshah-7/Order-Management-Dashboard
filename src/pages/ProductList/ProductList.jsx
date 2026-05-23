@@ -1,92 +1,75 @@
 import React from "react";
-import "./ProductList.css";
-import { DataGrid } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { DataTable, PageHeader, PrimaryButton, StatusBadge } from "../../components/DashboardKit";
 import { productRows } from "../../DummyData";
-import { Link } from "react-router";
 
 export default function ProductList() {
   const [data, setData] = React.useState(productRows);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    setData((currentData) => currentData.filter((item) => item.id !== id));
   };
 
-  const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    {
-      field: "product",
-      headerName: "Product",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            <img
-              src={params.row.img}
-              alt={params.row.name}
-              className="productListImg"
-            />
-            {params.row.name}
-          </div>
-        );
-      },
-    },
-    {
-      field: "stock",
-      headerName: "Stock",
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 110,
-      editable: true,
-    },
-    {
-      field: "price",
-      headerName: "Price",
-      type: "number",
-      width: 110,
-      editable: true,
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 110,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/products/${params.row.id}`}>
-              <button className="productListEdit">Edit</button>
-            </Link>
-            <DeleteOutlineIcon
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
-          </>
-        );
-      },
-    },
-  ];
   return (
-    <div className="productList">
-      <div className="productListHeader">
-        <h1 className="productListTitle">Products</h1>
-        <Link to="/products/newProduct">
-          <button className="productListAddButton">Add New Product</button>
-        </Link>
-      </div>
-      <div className="productListTable">
-        <DataGrid
-          rows={data}
-          columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[8]}
-          checkboxSelection
-          disableSelectionOnClick
-        />
-      </div>
-    </div>
+    <>
+      <PageHeader
+        title="Products"
+        description="Browse fake inventory records. Deletes are local to this session."
+        action={
+          <Link to="/products/newProduct">
+            <PrimaryButton>Add New Product</PrimaryButton>
+          </Link>
+        }
+      />
+      <DataTable
+        rows={data}
+        columns={[
+          { key: "id", header: "ID" },
+          {
+            key: "product",
+            header: "Product",
+            render: (row) => (
+              <div className="flex items-center gap-3">
+                <img className="h-10 w-10 rounded-lg object-contain" src={row.img} alt={row.name} />
+                <div>
+                  <div className="font-semibold text-slate-950">{row.name}</div>
+                  <div className="text-xs text-slate-500">{row.category}</div>
+                </div>
+              </div>
+            ),
+          },
+          { key: "stock", header: "Stock" },
+          {
+            key: "status",
+            header: "Status",
+            render: (row) => <StatusBadge tone={row.status === "active" ? "green" : "amber"}>{row.status}</StatusBadge>,
+          },
+          { key: "price", header: "Price" },
+          {
+            key: "action",
+            header: "Action",
+            render: (row) => (
+              <div className="flex items-center gap-3">
+                <Link
+                  to={`/products/${row.id}`}
+                  className="rounded-md bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 transition hover:bg-blue-100"
+                >
+                  Edit
+                </Link>
+                <button
+                  type="button"
+                  className="text-red-500 transition hover:text-red-700"
+                  onClick={() => handleDelete(row.id)}
+                  aria-label={`Delete ${row.name}`}
+                >
+                  <DeleteOutlineIcon fontSize="small" />
+                </button>
+              </div>
+            ),
+          },
+        ]}
+      />
+    </>
   );
 }

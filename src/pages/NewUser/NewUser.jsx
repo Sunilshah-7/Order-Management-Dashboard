@@ -1,54 +1,51 @@
 import React from "react";
-import "./NewUser.css";
+import { Card, DemoNotice, FormField, PageHeader, PrimaryButton, inputClass } from "../../components/DashboardKit";
+
 export default function NewUser() {
   return (
-    <div className="newUser">
-      <h1 className="newUserTitle">New User</h1>
-      <form className="newUserForm">
-        <div className="newUserItem">
-          <label>Username</label>
-          <input type="text" placeholder="John" />
-        </div>
-        <div className="newUserItem">
-          <label>Full Name</label>
-          <input type="text" placeholder="John Smith" />
-        </div>
-        <div className="newUserItem">
-          <label>Email</label>
-          <input type="email" placeholder="john@gmail.com" />
-        </div>
-        <div className="newUserItem">
-          <label>Password</label>
-          <input type="password" placeholder="password" />
-        </div>
-        <div className="newUserItem">
-          <label>Phone</label>
-          <input type="text" placeholder="+1 234 567" />
-        </div>
-        <div className="newUserItem">
-          <label>Address</label>
-          <input type="text" placeholder="New York" />
-        </div>
-        <div className="newUserItem">
-          <label>Gender</label>
-          <div className="newUserGender">
-            <input type="radio" name="gender" id="male" value="male" />
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female" value="female" />
-            <label for="female">Female</label>
-            <input type="radio" name="gender" id="other" value="other" />
-            <label for="other">Other</label>
+    <>
+      <PageHeader title="New User" description="Create a fake user record for the demo dashboard." />
+      <div className="mb-6">
+        <DemoNotice />
+      </div>
+      <Card title="User Details">
+        <form className="grid gap-4 md:grid-cols-2">
+          <FormField label="Username">
+            <input className={inputClass} type="text" placeholder="John" />
+          </FormField>
+          <FormField label="Full Name">
+            <input className={inputClass} type="text" placeholder="John Smith" />
+          </FormField>
+          <FormField label="Email">
+            <input className={inputClass} type="email" placeholder="john@example.com" />
+          </FormField>
+          <FormField label="Password">
+            <input className={inputClass} type="password" placeholder="password" />
+          </FormField>
+          <FormField label="Phone">
+            <input className={inputClass} type="text" placeholder="+1 234 567" />
+          </FormField>
+          <FormField label="Address">
+            <input className={inputClass} type="text" placeholder="New York" />
+          </FormField>
+          <FormField label="Gender">
+            <select className={inputClass} defaultValue="male">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </FormField>
+          <FormField label="Active">
+            <select className={inputClass} defaultValue="yes">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </FormField>
+          <div className="md:col-span-2">
+            <PrimaryButton type="button">Create User</PrimaryButton>
           </div>
-        </div>
-        <div className="newUserItem">
-          <label>Active</label>
-          <select className="newUserSelect">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <button className="newUserButton">Create</button>
-      </form>
-    </div>
+        </form>
+      </Card>
+    </>
   );
 }

@@ -1,33 +1,19 @@
 import "./App.css";
+import { Outlet } from "react-router-dom";
 import Topbar from "./components/TopBar/Topbar";
 import Sidebar from "./components/SideBar/Sidebar";
-import Home from "./pages/Home/Home";
-import { BrowserRouter } from "react-router";
-import { Routes, Route } from "react-router";
-import UserList from "./pages/UserList/UserList";
-import User from "./pages/User/User";
-import NewUser from "./pages/NewUser/NewUser";
-import ProductList from "./pages/ProductList/ProductList";
-import Product from "./pages/Product/Product";
-import NewProduct from "./pages/NewProduct/NewProduct";
 
 function App() {
   return (
-    <BrowserRouter>
+    <div className="min-h-screen bg-blue-50 text-slate-900">
       <Topbar />
-      <div className="container">
+      <div className="mx-auto flex max-w-[1600px] flex-col lg:flex-row">
         <Sidebar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/users" element={<UserList />} />
-          <Route path="/users/:userId" element={<User />} />
-          <Route path="/users/newUser" element={<NewUser />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/products/:productId" element={<Product />} />
-          <Route path="/products/newProduct" element={<NewProduct />} />
-        </Routes>
+        <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+          <Outlet />
+        </main>
       </div>
-    </BrowserRouter>
+    </div>
   );
 }
 

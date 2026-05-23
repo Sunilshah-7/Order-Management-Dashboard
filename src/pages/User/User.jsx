@@ -1,120 +1,85 @@
-import "./User.css";
-import {Link} from "react-router";
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
-import PublishIcon from '@mui/icons-material/Publish';
+import { Card, DemoNotice, FormField, PageHeader, PrimaryButton, StatusBadge, inputClass } from "../../components/DashboardKit";
+import { userRows } from "../../DummyData";
+
 export default function User() {
+  const { userId } = useParams();
+  const user = userRows.find((item) => String(item.id) === userId) ?? userRows[0];
+
   return (
-    <div className="user">
-      <div className="userTitleContainer">
-        <h1 className="userTitle">Edit User</h1>
-        <Link to="/users/newUser">
-        <button className="userAddButton">Create</button>
-        </Link>
+    <>
+      <PageHeader
+        title="Edit User"
+        description={`Viewing fake profile details for ${user.username}.`}
+        action={
+          <Link to="/users/newUser">
+            <PrimaryButton>Create User</PrimaryButton>
+          </Link>
+        }
+      />
+      <div className="mb-6">
+        <DemoNotice />
       </div>
-      <div className="userContainer">
-        <div className="userShow">
-          <div className="userShowTop">
-            <img
-              src="https://i.pinimg.com/originals/8d/50/e8/8d50e816bb56aa84b47eefd428f5d0de.png"
-              alt=""
-              className="userShowImg"
-            />
-            <div className="userShowTopTitle">
-              <span className="userShowUsername">Ana Becker</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+      <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
+        <Card title="Profile">
+          <div className="flex items-center gap-4">
+            <img className="h-20 w-20 rounded-2xl object-cover" src={user.avatar} alt={user.username} />
+            <div>
+              <h2 className="text-xl font-bold text-slate-950">{user.username}</h2>
+              <p className="text-sm text-slate-500">{user.role}</p>
+              <div className="mt-3">
+                <StatusBadge tone={user.status === "active" ? "green" : "amber"}>{user.status}</StatusBadge>
+              </div>
             </div>
           </div>
-          <div className="userShowBottom">
-            <span className="userShowTitle">Account Details</span>
-            <div className="userShowInfo">
-              <PermIdentityIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">@annabecker99</span>
+          <div className="mt-6 space-y-4 text-sm text-slate-600">
+            <div className="flex items-center gap-3">
+              <MailOutlineIcon fontSize="small" className="text-blue-600" />
+              {user.email}
             </div>
-            <div className="userShowInfo">
-              <CalendarTodayIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">10.11.2000</span>
+            <div className="flex items-center gap-3">
+              <PhoneAndroidIcon fontSize="small" className="text-blue-600" />
+              +1 234 567
             </div>
-            <span className="userShowTitle">Contact Details</span>
-            <div className="userShowInfo">
-              <PhoneAndroidIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">+1 234 567</span>
-            </div>
-            <div className="userShowInfo">
-              <MailOutlineIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">anabecker99@gmail.com</span>
-            </div>
-            <div className="userShowInfo">
-              <LocationSearchingIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | USA</span>
+            <div className="flex items-center gap-3">
+              <LocationSearchingIcon fontSize="small" className="text-blue-600" />
+              New York, USA
             </div>
           </div>
-        </div>
-        <div className="userUpdate">
-          <span className="userUpdateTitle">Edit</span>
-          <form className="userUpdateForm">
-            <div className="userUpdateLeft">
-              <div className="userUpdateItem">
-                <label>Username</label>
-                <input
-                  type="text"
-                  placeholder="annaabeck99"
-                  className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Full Name</label>
-                <input
-                  type="text"
-                  placeholder="Anna Becker"
-                  className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Email</label>
-                <input
-                  type="text"
-                  placeholder="annabeck99@gmail.com"
-                  className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Phone</label>
-                <input
-                  type="text"
-                  placeholder="+1 234 567r"
-                  className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Address</label>
-                <input
-                  type="text"
-                  placeholder="New York | USA"
-                  className="userUpdateInput"
-                />
-              </div>
-            </div>
-            <div className="userUpdateRight">
-                <div className="userUpdateUpload">
-                    <img
-                    className="userUpdateImg"
-                    src="https://i.pinimg.com/originals/8d/50/e8/8d50e816bb56aa84b47eefd428f5d0de.png"
-                    alt=""
-                    />
-                    <label htmlFor="file">
-                    <PublishIcon />
-                    </label>
-                    <input type="file" id="file" style={{display:"none"}}/>
-                </div>
-                <button className="userUpdateButton">Update</button>
+        </Card>
+        <Card title="Edit Details">
+          <form className="grid gap-4 md:grid-cols-2">
+            <FormField label="Username">
+              <input className={inputClass} type="text" defaultValue={user.username} />
+            </FormField>
+            <FormField label="Role">
+              <input className={inputClass} type="text" defaultValue={user.role} />
+            </FormField>
+            <FormField label="Email">
+              <input className={inputClass} type="email" defaultValue={user.email} />
+            </FormField>
+            <FormField label="Phone">
+              <input className={inputClass} type="text" defaultValue="+1 234 567" />
+            </FormField>
+            <FormField label="Address">
+              <input className={inputClass} type="text" defaultValue="New York, USA" />
+            </FormField>
+            <FormField label="Status">
+              <select className={inputClass} defaultValue={user.status}>
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+              </select>
+            </FormField>
+            <div className="md:col-span-2">
+              <PrimaryButton type="button">Update User</PrimaryButton>
             </div>
           </form>
-        </div>
+        </Card>
       </div>
-    </div>
+    </>
   );
 }
