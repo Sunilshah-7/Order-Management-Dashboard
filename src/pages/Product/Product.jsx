@@ -10,7 +10,7 @@ export default function Product() {
         <div className="product">
             <div className="productTitleContainer">
                 <h1 className="productTitle">Product</h1>
-                <Link to="/products/newproduct">
+                <Link to="/products/newProduct">
                 <button className="productAddButton">Create</button>
                 </Link>
             </div>
@@ -21,7 +21,7 @@ export default function Product() {
                 <div className="productTopRight">
                     <div className="productInfoTop">
                         <img src="https://www.nicepng.com/png/detail/298-2982212_apple-airpods-png.png"
-                        alt=""
+                        alt="Airpods"
                         className="productInfoImg" />
                         <span className="productName">Airpods</span>
                     </div>
@@ -64,10 +64,10 @@ export default function Product() {
                     <div className="productFormRight">
                         <div className="productUpload">
                             <img src="https://www.nicepng.com/png/detail/298-2982212_apple-airpods-png.png"
-                            alt=""
+                            alt="Airpods"
                             className="productUploadImg"
                             />
-                            <label for="file">
+                            <label htmlFor="file">
                                 <PublishIcon />
                             </label>
                         </div>

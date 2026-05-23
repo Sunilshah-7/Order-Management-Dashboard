@@ -1,6 +1,6 @@
 import React from "react";
 import "./Sidebar.css";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import LineStyleIcon from "@mui/icons-material/LineStyle";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -15,13 +15,21 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 
 export default function Sidebar() {
+  const { pathname } = useLocation();
+
+  const getSidebarItemClass = (path) => {
+    const isActive =
+      path === "/" ? pathname === path : pathname.startsWith(path);
+    return isActive ? "sidebarItem active" : "sidebarItem";
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <li className="sidebarItem active">
+            <li className={getSidebarItemClass("/")}>
               <Link to="/" className="link">
                 <LineStyleIcon className="sidebarIcon" />
                 <span>Home</span>
@@ -40,16 +48,16 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <li className="sidebarItem">
+            <li className={getSidebarItemClass("/users")}>
               <Link to="/users" className="link">
-              <PersonOutlineOutlinedIcon className="sidebarIcon" />
-              <span>Users</span>
+                <PersonOutlineOutlinedIcon className="sidebarIcon" />
+                <span>Users</span>
               </Link>
             </li>
-            <li className="sidebarItem">
+            <li className={getSidebarItemClass("/products")}>
               <Link to="/products" className="link">
-              <StorefrontOutlinedIcon className="sidebarIcon" />
-              <span>Products</span>
+                <StorefrontOutlinedIcon className="sidebarIcon" />
+                <span>Products</span>
               </Link>
             </li>
             <li className="sidebarItem">
@@ -88,10 +96,7 @@ export default function Sidebar() {
               <WorkOutlineOutlinedIcon className="sidebarIcon" />
               <span>Manage</span>
             </li>
-            <li className="sidebarItem">
-              <TimelineIcon className="sidebarIcon" />
-              <span>Analytics</span>
-            </li>
+
             <li className="sidebarItem">
               <ReportGmailerrorredOutlinedIcon className="sidebarIcon" />
               <span>Reports</span>

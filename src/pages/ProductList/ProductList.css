@@ -3,6 +3,32 @@
   padding: 20px;
 }
 
+.productListHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.productListTitle {
+  margin: 0;
+}
+
+.productListAddButton {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  background-color: teal;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.productListTable {
+  height: 400px;
+  width: 100%;
+}
+
 .productListItem {
   display: flex;
   align-items: center;

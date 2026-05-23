@@ -70,15 +70,23 @@ export default function ProductList() {
     },
   ];
   return (
-    <div className="productList" style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        pageSize={8}
-        rowsPerPageOptions={[8]}
-        checkboxSelection
-        disableSelectionOnClick
-      />
+    <div className="productList">
+      <div className="productListHeader">
+        <h1 className="productListTitle">Products</h1>
+        <Link to="/products/newProduct">
+          <button className="productListAddButton">Add New Product</button>
+        </Link>
+      </div>
+      <div className="productListTable">
+        <DataGrid
+          rows={data}
+          columns={columns}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      </div>
     </div>
   );
 }

@@ -71,15 +71,23 @@ export default function UserList() {
   ];
 
   return (
-    <div className="userList" style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        pageSize={8}
-        rowsPerPageOptions={[8]}
-        checkboxSelection
-        disableSelectionOnClick
-      />
+    <div className="userList">
+      <div className="userListHeader">
+        <h1 className="userListTitle">Users</h1>
+        <Link to="/users/newUser">
+          <button className="userListAddButton">Add New User</button>
+        </Link>
+      </div>
+      <div className="userListTable">
+        <DataGrid
+          rows={data}
+          columns={columns}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      </div>
     </div>
   );
 }
