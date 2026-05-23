@@ -1,70 +1,137 @@
-# Getting Started with Create React App
+# Order Management Admin Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Vite-based React admin dashboard for managing users and products. This project serves as a frontend interface for an order management system, featuring user management, product management, and dashboard analytics.
+
+## Tech Stack
+
+- **React 19** with **Vite 6** for fast development and building
+- **React Router DOM 7** for client-side routing
+- **Material UI (MUI)** for UI components including:
+  - MUI DataGrid for tabular data display
+  - MUI Icons for iconography
+- **Recharts** for data visualization (line charts)
+- **Emotion** for styling (used by MUI)
+- Plain CSS files colocated with components/pages
+
+## Project Structure
+
+```
+src/
+├── App.jsx          # Main application shell with routing
+├── index.jsx        # Application entry point
+├── DummyData.jsx    # Static sample data for charts and tables
+├── components/      # Reusable UI components
+│   ├── Chart/       # Reusable Recharts line chart component
+│   ├── FeaturedInfo/# Dashboard metric cards
+│   ├── Sidebar/     # Navigation sidebar
+│   ├── TopBar/      # Top navigation bar
+│   ├── WidgetLarge/ # Latest transactions table
+│   └── WidgetSmall/ # New members widget
+├── pages/           # Application pages
+│   ├── Home/        # Dashboard overview
+│   ├── UserList/    # User management table
+│   ├── User/        # User detail/edit page
+│   ├── NewUser/     # User creation form
+│   ├── ProductList/ # Product management table
+│   ├── Product/     # Product detail/edit page
+│   └── NewProduct/  # New product form (placeholder)
+├── index.css        # Global styles
+└── App.css          # Application-specific styles
+
+public/
+└ index.html         # HTML template
+```
+
+## Key Features
+
+### Dashboard (`/`)
+- Revenue, Sales, and Cost summary cards with month-over-month indicators
+- User analytics line chart showing user growth trends
+- New members widget displaying recent user signups
+- Latest transactions table showing recent order activity
+
+### User Management
+- **User List** (`/users`): Display users in a searchable, filterable MUI DataGrid
+- **User Detail** (`/users/:userId`): View and edit user profile information
+- **New User** (`/users/newUser`): Form to create new users
+- Features include avatar upload, status toggles, and form validation (UI-only)
+
+### Product Management
+- **Product List** (`/products`): Display products in a MUI DataGrid
+- **Product Detail** (`/products/:productId`): View and edit product information
+- **New Product** (`/products/newProduct`): Form to create new products
+- Features include product images, stock management, and pricing
+
+## Data & Persistence
+
+⚠️ **Important**: This is a presentational dashboard with no backend integration:
+- All data is hardcoded in `src/DummyData.jsx`
+- Data modifications (edits/deletions) only persist in local component state
+- Refreshing the page resets all data to original state
+- Forms are UI-only and do not submit data to any API
+- No authentication or authorization system is implemented
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `yarn start`
-
-Runs the app in the development mode.\
+### `npm run dev` or `yarn dev`
+Runs the app in development mode with hot module replacement.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The page will reload when you make changes.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### `npm run build` or `yarn build`
+Builds the app for production to the `build` folder.
+It correctly bundles React in production mode and optimizes the build for best performance.
+The build is minified and filenames include hashes for cache busting.
 
-### `yarn test`
+### `npm run preview` or `yarn preview`
+Locally preview the production build before deploying.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `yarn build`
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Project Guidelines
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project follows specific conventions documented in `AGENTS.md`:
+- Components and pages have colocated CSS files (e.g., `User.jsx` with `User.css`)
+- Functional React components with JSX syntax
+- Existing libraries (MUI, Recharts, React Router) are preferred over new additions
+- Mock data should be clearly labeled as fake/sample data
+- UI-only behavior (non-functional forms) should be explicitly documented
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Limitations & Future Work
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+As noted in `PROJECT_FEATURES.md` and `AGENTS.md`:
+- No backend API integration
+- No persistence layer (data resets on refresh)
+- No authentication system
+- Forms are presentational only
+- Some sidebar navigation items are visual labels only
+- Detail pages display static records rather than fetching by route parameter
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To learn more about the technologies used:
+- [React Documentation](https://react.dev/)
+- [Vite Documentation](https://vitejs.dev/)
+- [React Router Documentation](https://reactrouter.com/)
+- [Material UI Documentation](https://mui.com/)
+- [Recharts Documentation](https://recharts.org/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+*This README was updated to accurately reflect the Vite-based React architecture of this project, replacing the default Create React App documentation.*
